@@ -14,3 +14,5 @@ SCREEN = pyg.display.set_mode(c.SCREEN_SIZE)
 SCREEN_RECT = SCREEN.get_rect()
 
 IMAGES = tools.load_all_images(os.path.join("resources", "images"))
+MUSIC = tools.load_all_music(os.path.join("resources", "music"))
+SFX = tools.load_all_sfx(os.path.join("resources", "sound"))

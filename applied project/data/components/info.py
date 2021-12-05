@@ -15,12 +15,13 @@ class OverheadInfo(object):
     def __init__(self, game_info, state):
         self.sprite_sheet = setup.IMAGES["text_images"]
         self.coin_total = game_info[c.COIN_TOTAL]
-        self.time = 400
+        self.time = game_info[c.REMAIN_TIME]  # changed
         self.current_time = 0
         self.total_lives = game_info[c.LIVES]
         self.top_score = game_info[c.TOP_SCORE]
         self.state = state
         self.special_state = None
+        self.modify_time = False
         self.game_info = game_info
 
         self.create_image_dict()
@@ -192,6 +193,9 @@ class OverheadInfo(object):
         self.main_menu_labels = [player_one_game, player_two_game, top, top_score]
 
     def update(self, level_info, mario=None):
+        # print("-----", self.time)
+        if self.modify_time:
+            self.time = 3
         self.mario = mario
         self.handle_level_state(level_info)
 
@@ -255,14 +259,17 @@ class OverheadInfo(object):
 
     def update_count_down_clock(self, level_info):
         # update time
-
         if self.state == c.FAST_COUNT_DOWN:
             self.time -= 1
+        elif self.state == c.TEST_COUNT_TIME:
+            self.time -= 100
         elif (
             level_info[c.CURRENT_TIME] - self.current_time
         ) > 1024:  # how long it will change time
             self.current_time = level_info[c.CURRENT_TIME]
             self.time -= 1
+            level_info[c.REMAIN_TIME] -= 1
+
         self.count_down_images = []
         self.create_label(self.count_down_images, str(self.time), 645, 55)
         if len(self.count_down_images) < 2:
@@ -300,6 +307,12 @@ class OverheadInfo(object):
             self.draw_level_screen_info(surface)
         elif self.state == c.END_OF_LEVEL:
             self.draw_level_screen_info(surface)
+        elif self.state == c.LOAD_SCREEN:
+            self.draw_loading_screen_info(surface)
+        elif self.state == c.GAME_OVER:
+            self.draw_game_over_screen_info(surface)
+        elif self.state == c.TIME_OUT:
+            self.draw_time_out_screen_info(surface)
         else:
             pass
 
@@ -326,6 +339,64 @@ class OverheadInfo(object):
 
         for digit in self.count_down_images:
             surface.blit(digit.image, digit.rect)
+
+        for character in self.coin_count_images:
+            surface.blit(character.image, character.rect)
+
+        for label in self.label_list:
+            for letter in label:
+                surface.blit(letter.image, letter.rect)
+
+        surface.blit(self.flashing_coin.image, self.flashing_coin.rect)
+
+    def draw_loading_screen_info(self, surface):
+        for info in self.score_images:
+            surface.blit(info.image, info.rect)
+
+        for word in self.center_labels:
+            for letter in word:
+                surface.blit(letter.image, letter.rect)
+
+        for word in self.life_total_label:
+            surface.blit(word.image, word.rect)
+
+        surface.blit(self.mario_image, self.mario_rect)
+        surface.blit(self.life_times_image, self.life_times_rect)
+
+        for character in self.coin_count_images:
+            surface.blit(character.image, character.rect)
+
+        for label in self.label_list:
+            for letter in label:
+                surface.blit(letter.image, letter.rect)
+
+        surface.blit(self.flashing_coin.image, self.flashing_coin.rect)
+
+    def draw_game_over_screen_info(self, surface):
+
+        for info in self.score_images:
+            surface.blit(info.image, info.rect)
+
+        for word in self.game_over_label:
+            for letter in word:
+                surface.blit(letter.image, letter.rect)
+
+        for character in self.coin_count_images:
+            surface.blit(character.image, character.rect)
+
+        for label in self.label_list:
+            for letter in label:
+                surface.blit(letter.image, letter.rect)
+
+        surface.blit(self.flashing_coin.image, self.flashing_coin.rect)
+
+    def draw_time_out_screen_info(self, surface):
+        for info in self.score_images:
+            surface.blit(info.image, info.rect)
+
+        for word in self.time_out_label:
+            for letter in word:
+                surface.blit(letter.image, letter.rect)
 
         for character in self.coin_count_images:
             surface.blit(character.image, character.rect)

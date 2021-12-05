@@ -110,5 +110,9 @@ class Coin_box(pyg.sprite.Sprite):
         if self.contents == "coin":
             self.group.add(coin.Coin(self.rect.centerx, self.rect.y, score_group))
 
+            setup.SFX["coin"].play()
+        else:
+            setup.SFX["powerup_appears"].play()
+
     def opened(self):
         pass

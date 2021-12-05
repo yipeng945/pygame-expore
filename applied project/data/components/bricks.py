@@ -49,8 +49,8 @@ class Brick(pyg.sprite.Sprite):
         self.frames.append(self.get_image(49, 0, 16, 16))
 
     def setup_contents(self):
-        if self.contents == "6coins":
-            self.coin_total = 6
+        if self.contents == "5coins":
+            self.coin_total = 5
         else:
             self.coin_total = 0
 
@@ -66,7 +66,7 @@ class Brick(pyg.sprite.Sprite):
             self.opened()
 
     def resting(self):
-        if self.contents == "6coins":
+        if self.contents == "5coins":
             if self.coin_total == 0:
                 self.state == c.OPENED
 
@@ -78,7 +78,7 @@ class Brick(pyg.sprite.Sprite):
             self.rect.y = self.rest_height
             if self.contents == "star":
                 self.state = c.OPENED
-            elif self.contents == "6coins":
+            elif self.contents == "5coins":
                 if self.coin_total == 0:
                     self.state = c.OPENED
                 else:
@@ -89,7 +89,8 @@ class Brick(pyg.sprite.Sprite):
     def start_bump(self, score_group):
         self.y_vel = -6
 
-        if self.contents == "6coins":
+        if self.contents == "5coins":
+            setup.SFX["coin"].play()
 
             if self.coin_total > 0:
                 self.group.add(coin.Coin(self.rect.centerx, self.rect.y, score_group))
@@ -98,6 +99,7 @@ class Brick(pyg.sprite.Sprite):
                     self.frame_index = 1
                     self.image = self.frames[self.frame_index]
         elif self.contents == "star":
+            setup.SFX["powerup_appears"].play()
 
             self.frame_index = 1
             self.image = self.frames[self.frame_index]

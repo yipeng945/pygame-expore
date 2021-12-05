@@ -528,8 +528,12 @@ class Mario(pyg.sprite.Sprite):
             self.facing_right = True
             self.get_out_of_crouch()
             self.state = c.WALK
-        elif keys[tools.keybinding["jump"]]:  # mocktest
+        elif keys[tools.keybinding["jump"]]:
             if self.allow_jump:
+                if self.big:
+                    setup.SFX["big_jump"].play()
+                else:
+                    setup.SFX["small_jump"].play()
                 self.state = c.JUMP
                 self.y_vel = c.JUMP_VEL
         else:
@@ -564,6 +568,7 @@ class Mario(pyg.sprite.Sprite):
     def shoot_fireball(self, powerup_group):
         # SHOOT FIRE BALL LESS THAN 2
         self.fireball_count = self.count_number_of_fireballs(powerup_group)
+        setup.SFX["fireball"].play()
 
         if (self.current_time - self.last_fireball_time) > 200:
             if self.fireball_count < 2:
@@ -622,7 +627,12 @@ class Mario(pyg.sprite.Sprite):
         if keys[tools.keybinding["jump"]]:
             if self.allow_jump:
 
+                if self.big:
+                    setup.SFX["big_jump"].play()
+                else:
+                    setup.SFX["small_jump"].play()
                 self.state = c.JUMP
+
                 if self.x_vel > 4.5 or self.x_vel < -4.5:
                     self.y_vel = c.JUMP_VEL - 0.5
                 else:

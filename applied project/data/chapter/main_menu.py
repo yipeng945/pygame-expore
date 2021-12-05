@@ -16,6 +16,9 @@ class Menu(tools._State):
             c.LEVEL_STATE: None,
             c.CAMERA_START_X: 0,
             c.MARIO_DEAD: False,
+            c.IS_MARIO_BIG: False,
+            c.IS_FROM_COIN: False,
+            c.REMAIN_TIME: 400,
         }
         self.startup(0.0, persist)
 

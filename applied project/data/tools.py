@@ -1,5 +1,6 @@
 import os
 import pygame as pyg
+from . import constants as c
 
 keybinding = {
     "action": pyg.K_j,
@@ -18,6 +19,7 @@ class Control(object):
         self.caption = caption
         self.fps = 60
         self.show_fps = False
+        self.modify_time = False
         self.current_time = 0.0
         self.keys = pyg.key.get_pressed()
         self.state_dict = {}
@@ -41,6 +43,7 @@ class Control(object):
                 pyg.display.set_caption(caption_with_fps)
 
     def update(self):
+
         self.current_time = pyg.time.get_ticks()
         if self.state.done:
             self.flip_state()
@@ -65,6 +68,7 @@ class Control(object):
             elif event.type == pyg.KEYDOWN:
                 self.keys = pyg.key.get_pressed()
                 self.toggle_show_fps(event.key)
+                self.toggle_time(event.key)
             self.state.get_event(event)
 
     def toggle_show_fps(self, key):
@@ -72,6 +76,10 @@ class Control(object):
             self.show_fps = not self.show_fps
             if not self.show_fps:
                 pyg.display.set_caption(self.caption)
+
+    def toggle_time(self, key):
+        if key == pyg.K_F2:
+            self.modify_time = True
 
 
 class _State(object):
@@ -112,3 +120,21 @@ def load_all_images(directory, colorkey=(255, 0, 255), accept=(".png", "jpyg", "
                 img.set_colorkey(colorkey)
             graphics[name] = img
     return graphics
+
+
+def load_all_music(directory, accept=(".wav", ".mp3", ".ogg", ".mdi")):
+    songs = {}
+    for song in os.listdir(directory):
+        name, ext = os.path.splitext(song)
+        if ext.lower() in accept:
+            songs[name] = os.path.join(directory, song)
+    return songs
+
+
+def load_all_sfx(directory, accept=(".wav", ".mpe", ".ogg", ".mdi")):
+    effects = {}
+    for fx in os.listdir(directory):
+        name, ext = os.path.splitext(fx)
+        if ext.lower() in accept:
+            effects[name] = pyg.mixer.Sound(os.path.join(directory, fx))
+    return effects

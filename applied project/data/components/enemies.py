@@ -66,8 +66,8 @@ class Enemy(pyg.sprite.Sprite):
             self.fall()
         elif self.state == c.DEATH_JUMP:
             self.death_jumping()
-        # elif self.state == c.SHELL_SLIDE:
-        #     self.shell_sliding()
+        elif self.state == c.SHELL_SLIDE:
+            self.shell_sliding()
 
     def walking(self):
         # walk
@@ -130,9 +130,34 @@ class Goomba(Enemy):
 
         if (self.current_time - self.death_timer) > 512:  # keep frame
             self.kill()
+        print("bingo!")
 
     # to be continue
 
 
 class Koopa(Enemy):
-    pass
+    def __init__(self, y=c.GROUND_HEIGHT, x=0, direction=c.LEFT, name="koopa"):
+        Enemy.__init__(self)
+        self.setup_enemy(x, y, direction, name, self.setup_frames)
+
+    def setup_frames(self):
+        # add image
+        self.frames.append(self.get_image(150, 0, 16, 24))
+        self.frames.append(self.get_image(180, 0, 16, 24))
+        self.frames.append(self.get_image(360, 5, 16, 15))
+        self.frames.append(pyg.transform.flip(self.frames[2], False, True))
+
+    def jumped(self):
+        self.x_vel = 0
+        self.frame_index = 2
+        shell_y = self.rect.bottom
+        shell_x = self.rect.x
+        self.rect = self.frames[self.frame_index].get_rect()
+        self.rect.x = shell_x
+        self.rect.bottom = shell_y
+
+    def shell_sliding(self):
+        if self.direction == c.RIGHT:
+            self.x_vel = 10
+        elif self.direction == c.LEFT:
+            self.x_vel = -10

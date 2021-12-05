@@ -65,7 +65,7 @@ RIGHT = "right"
 JUMPED = "jumped"
 DEATH_JUMP = "death jump"
 
-# KOOPA STUFF // Todo
+# KOOPA STUFF
 
 SHELL_SLIDE = "shell slide"
 
@@ -101,7 +101,7 @@ EXPLODING = "exploding"
 MUSHROOM = "mushroom"
 STAR = "star"
 FIREFLOWER = "fireflower"
-SIXCOINS = "6coins"
+FIVECOINS = "5coins"
 COIN = "coin"
 LIFE_MUSHROOM = "1up_mushroom"
 
@@ -138,6 +138,7 @@ LOAD_SCREEN = "load screen"
 TIME_OUT = "time out"
 GAME_OVER = "game over"
 LEVEL1 = "level1"
+COIN_ROOM = "coin_room"
 
 # OVERHEAD INFO STATES
 MAIN_MENU = "main menu"
@@ -145,6 +146,7 @@ LOAD_SCREEN = "loading screen"
 LEVEL = "level"
 GAME_OVER = "game over"
 FAST_COUNT_DOWN = "fast count down"
+TEST_COUNT_TIME = "quick count time"
 END_OF_LEVEL = "end of level"
 
 
@@ -157,3 +159,15 @@ CURRENT_TIME = "current time"
 LEVEL_STATE = "level state"
 CAMERA_START_X = "camera start x"
 MARIO_DEAD = "mario dead"
+IS_MARIO_BIG = "mario is big"
+IS_FROM_COIN = "come from coin"
+REMAIN_TIME = "remain time"
+
+
+# SOUND STATEZ
+NORMAL = "normal"
+STAGE_CLEAR = "stage clear"
+WORLD_CLEAR = "world clear"
+TIME_WARNING = "time warning"
+SPED_UP_NORMAL = "sped up normal"
+MARIO_INVINCIBLE = "mario invincible"
